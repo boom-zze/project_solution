@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "commonUtil.h"
+#include "EdgeDetection.h"
 //D:\opencv\build\include\opencv2
 #include<opencv2/opencv.hpp>
 using namespace std;
@@ -16,6 +17,7 @@ int main()
     // 實例
     commonUtil comUtil;
     commonMath comMath;
+    EdgeDetection EdgeDect;
     unsigned int index = 0;
     cout << "Index 1: RGB channel separation and mean value calculation" << endl;
     cout << "Please assign the index of test case: ";
@@ -24,7 +26,9 @@ int main()
     cout << " The selected index = " << index << endl;
 
     string img_path = "D:\\dog.jpg";
-
+    Mat src;
+    int channels;
+    comUtil.read_image(img_path, src, channels);
     switch (index)
     {
 
@@ -36,9 +40,7 @@ int main()
         //func4 : intensity
         try
         {
-            Mat src;
-            int channels;
-            comUtil.read_image(img_path, src, channels);
+            
             cv::imshow("image", src);
             cout << "The image channels is: " << channels << endl;
             Mat img_r, img_g, img_b;
@@ -52,6 +54,7 @@ int main()
             cv::destroyAllWindows();
             
             vector<Mat> vec_img = {img_r,img_g,img_b};
+            
             
             //--------------------------------------------------------------
             Mat mask;
@@ -80,7 +83,46 @@ int main()
 
         break;
     }
-    
+    case 2:
+    {
+        int edgeDetect, kernel_size =3;
+        cout << "please assign the method of edge detection, 0 for sobel x , 1 for sobel y, 2 for xy  ";
+        cin >> edgeDetect;
+        
+        Mat dst;
+      
+     
+        switch (edgeDetect)
+        {
+        case 0:
+        {
+            EdgeDect.sobel_amp(src, dst, "x", kernel_size);
+            imshow("x direction of Sobel image", dst);
+            break;
+        }
+        case 1:
+        {
+            EdgeDect.sobel_amp(src, dst, "y", kernel_size);
+            imshow("y direction of Sobel image", dst);
+            break;
+        }
+        case 2:
+        {
+            EdgeDect.sobel_amp(src, dst, "sum_sqrt", kernel_size);
+            imshow("xy direction of Sobel image", dst);
+            break;
+        }
+        default:
+            cout << "Invalid index selected." << endl; // Added message for clarity
+            break;
+        }
+
+        waitKey(0);
+        destroyAllWindows();
+
+        break;
+    }
+
     //-------------------------------------------------------------------------------------------
     //practice
     //-------------------------------------------------------------------------------------------
