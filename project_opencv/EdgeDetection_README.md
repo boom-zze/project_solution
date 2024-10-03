@@ -10,16 +10,14 @@
 sobel_amp(const Mat& img_src, Mat& img_out, string FilterType, int kernel_size)
 img_src : 輸入影像
 img_out : 輸出影像
-FilterType : 邊緣檢測型態
-kernel_size : sobel mask size
+FilterType : 邊緣檢測型態, 參數必須為 "x"、"y" 或 "sum_sqrt"
+kernel_size : sobel mask size, 建議使用奇數（如 3、5、7） 
 
-## Sobel 算子 mask
+Sobel 算子 mask
 對於 kernel_size = 3 的情況：
 X direction      Y direction
 [-1  0  1]       [-1 -2 -1]
 [-2  0  2]       [ 0  0  0]
 [-1  0  1]       [ 1  2  1]
 
-## 注意事項
-FilterType 參數必須為 "x"、"y" 或 "sum_sqrt"
-kernel_size 建議使用奇數（如 3、5、7）
+
